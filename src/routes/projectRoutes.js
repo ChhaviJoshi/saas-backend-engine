@@ -15,4 +15,19 @@ router.post(
 // View: Protected (Any Member of the Org)
 router.get("/", authenticateToken, projectController.getAllProjects);
 
+router.patch(
+  "/:id/status",
+  authenticateToken,
+  checkRole("admin"),
+  projectController.updateStatus,
+);
+
+// Delete (Admin only - MANDATORY Requirement)
+router.delete(
+  "/:id",
+  authenticateToken,
+  checkRole("admin"),
+  projectController.deleteProject,
+);
+
 module.exports = router;
