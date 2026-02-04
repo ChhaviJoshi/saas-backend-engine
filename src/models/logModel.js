@@ -1,6 +1,6 @@
 const pool = require("../config/db");
 
-// 1. Create a Log Entry
+// Create a Log Entry
 const createLog = async (action, userId, orgId) => {
   await pool.query(
     "INSERT INTO activity_logs (action, user_id, organization_id) VALUES ($1, $2, $3)",
@@ -8,7 +8,7 @@ const createLog = async (action, userId, orgId) => {
   );
 };
 
-// 2. Get Logs for an Organization (Most recent first)
+// Get Logs for an Organization (Most recent first)
 const getLogsByOrg = async (orgId) => {
   const result = await pool.query(
     `SELECT l.action, l.created_at, u.name as user_name 

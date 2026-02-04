@@ -1,6 +1,6 @@
 const taskModel = require("../models/taskModel");
 const logModel = require("../models/logModel");
-const pool = require("../config/db"); // We need this for a quick user check
+const pool = require("../config/db"); // for a quick user check
 
 const createTask = async (req, res) => {
   const { title, description, projectId, assignedTo } = req.body;
@@ -8,7 +8,6 @@ const createTask = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // 🛡️ Security Check: Ensure the 'assignedTo' user belongs to THIS organization
     if (assignedTo) {
       const userCheck = await pool.query(
         "SELECT organization_id FROM users WHERE id = $1",
@@ -56,7 +55,7 @@ const getTasks = async (req, res) => {
       page,
       limit,
     );
-    res.json({ page, limit, tasks }); // Return metadata so frontend knows where it is
+    res.json({ page, limit, tasks }); 
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });

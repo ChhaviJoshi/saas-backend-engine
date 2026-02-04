@@ -6,15 +6,15 @@ const inviteUser = async (req, res) => {
   const adminOrgId = req.user.org_id; // Get the Admin's Org ID from the token
 
   try {
-    // 1. Check if user already exists
+    // Check if user already exists
     const existingUser = await userModel.findUserByEmail(email);
     if (existingUser)
       return res.status(400).json({ error: "User already exists" });
 
-    // 2. Hash Password
+    // Hash Password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 3. Create User (Force them into the Admin's Org, and set role to 'member')
+    // Create User 
     const newUser = await userModel.createUser(
       name,
       email,

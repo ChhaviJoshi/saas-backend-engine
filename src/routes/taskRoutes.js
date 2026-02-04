@@ -2,10 +2,8 @@ const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/taskController");
 const authenticateToken = require("../middlewares/authMiddleware");
-// 👇 Import validation
 const { validate, taskSchema } = require("../middlewares/validationMiddleware");
 
-// Add validation to the Create route
 router.post(
   "/",
   authenticateToken,

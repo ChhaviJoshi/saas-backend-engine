@@ -1,6 +1,6 @@
 const pool = require("../config/db");
 
-// 1. Create Task
+// Create Task
 const createTask = async (title, description, projectId, assignedTo, orgId) => {
   const result = await pool.query(
     `INSERT INTO tasks (title, description, project_id, assigned_to, organization_id) 
@@ -10,9 +10,9 @@ const createTask = async (title, description, projectId, assignedTo, orgId) => {
   return result.rows[0];
 };
 
-// 2. Get Tasks with Pagination
+// Get Tasks with Pagination
 const getTasksByProject = async (projectId, orgId, page = 1, limit = 10) => {
-  const offset = (page - 1) * limit; // Calculate where to start
+  const offset = (page - 1) * limit; 
 
   const result = await pool.query(
     `SELECT t.*, u.name as assignee_name 
@@ -20,13 +20,13 @@ const getTasksByProject = async (projectId, orgId, page = 1, limit = 10) => {
      LEFT JOIN users u ON t.assigned_to = u.id 
      WHERE t.project_id = $1 AND t.organization_id = $2
      ORDER BY t.created_at DESC
-     LIMIT $3 OFFSET $4`, // 👈 The magic SQL words
+     LIMIT $3 OFFSET $4`,
     [projectId, orgId, limit, offset]
   );
   return result.rows;
 };
 
-// 3. Update Task Status (e.g., moving from 'Todo' to 'Done')
+// Update Task Status (e.g., moving from 'Todo' to 'Done')
 const updateTaskStatus = async (taskId, status, orgId) => {
   const result = await pool.query(
     `UPDATE tasks SET status = $1 

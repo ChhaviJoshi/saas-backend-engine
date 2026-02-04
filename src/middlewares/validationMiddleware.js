@@ -1,23 +1,18 @@
 const Joi = require("joi");
 
-// 1. The Generic Validation Function
-// This acts as a gatekeeper. If data is bad, it stops the request here.
 const validate = (schema) => (req, res, next) => {
   const { error } = schema.validate(req.body);
   if (error) {
-    // Return a nice error message (e.g., "Password must be at least 6 characters")
     return res.status(400).json({ error: error.details[0].message });
   }
   next();
 };
 
-// 2. Define Rules for specific actions
-
-// REGISTER: Ensure email is valid & password is strong
+// REGISTRATION: Strong checks
 const registerSchema = Joi.object({
   name: Joi.string().min(2).required(),
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(), // Force min 6 chars
+  password: Joi.string().min(6).required(), 
   companyName: Joi.string().min(2).required(),
 });
 
@@ -33,7 +28,7 @@ const taskSchema = Joi.object({
   description: Joi.string().allow(""), // Description can be empty
   projectId: Joi.number().integer().required(),
   assignedTo: Joi.number().integer().optional(),
-  status: Joi.string().valid("todo", "in-progress", "done").optional(), // 👈 STRICT CHECK!
+  status: Joi.string().valid("todo", "in-progress", "done").optional(), 
   priority: Joi.string().valid("low", "medium", "high").optional(),
 });
 

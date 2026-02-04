@@ -27,8 +27,7 @@ const createProject = async (req, res) => {
 
 // 2. Get All Projects (Scoped to Org)
 const getAllProjects = async (req, res) => {
-  const orgId = req.user.org_id; // 👈 Automatic filtering!
-
+  const orgId = req.user.org_id; 
   try {
     const projects = await projectModel.getProjectsByOrg(orgId);
     res.json(projects);
